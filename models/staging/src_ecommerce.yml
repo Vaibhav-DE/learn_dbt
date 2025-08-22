@@ -12,3 +12,11 @@ sources:
           error_after: {count: 2, period: day} 
 
       - name: raw_customer
+        columns:
+        - name: customer_id
+          tests:
+          - not_null
+          - unique
+
+
+
