@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: ecommerce
+    database: ultra-sunset-468710-s1
+    schema: customer
+    tables:
+      - name: raw_orders
+        loaded_at_field: order_date    
+        freshness:
+          warn_after: {count: 1, period: day}  
+          error_after: {count: 2, period: day} 
+
+      - name: raw_customer
