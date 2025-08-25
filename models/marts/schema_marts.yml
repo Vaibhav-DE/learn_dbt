@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: mart_customer_orders
+    description: "Customer-level aggregated metrics like total orders, spend, and LTV"
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "Total number of orders per customer"
+      - name: customer_ltv
+        description: "Total lifetime spend of the customer"
+  - name: mart_daily_sales
+    description: "Daily rollup of orders, revenue, and customers"
+    columns:
+    - name: order_date
+      tests:
+        - not_null
+        - unique
+    - name: total_orders
+      description: "Number of distinct orders placed that day"
+    - name: total_order_value
+      description: "Sum of order values for that day"
+    - name: total_paid
+      description: "Sum of payments received that day"
+    - name: unique_customers
+      description: "Number of unique customers who placed orders that day"

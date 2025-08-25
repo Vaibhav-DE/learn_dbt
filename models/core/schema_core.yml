@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Clean customer dimension with one row per customer"
+    columns:
+      - name: customer_id
+        description: "Unique ID for the customer"
+        tests: [not_null, unique]
+
+      - name: first_name
+        description: "Customer's first name"
+
+      - name: last_name
+        description: "Customer's last name"
+
+      - name: country
+        description: "Customer's country"
+
+      - name: signup_ts
+        description: "Timestamp of when the customer signed up"
+        tests: [not_null]
+
+  - name: fact_orders
+    description: "Order facts including customer and payment details"
+    columns:
+      - name: order_id
+        description: "Unique ID for the order"
+        tests: [not_null]
+
+      - name: customer_id
+        description: "Reference to the customer who placed the order"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+
+      - name: order_ts
+        description: "Timestamp when the order was placed"
+        tests: [not_null]
+
+      - name: status
+        description: "Current status of the order"
+        tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'delivered', 'returned']
+
+      - name: total_amount
+        description: "Total order value"
+
+      - name: payment_id
+        description: "Payment transaction ID (nullable if unpaid)"
+
+      - name: payment_ts
+        description: "Timestamp of payment"
+
+      - name: payment_amount
+        description: "Amount paid for this order"
+
+      - name: payment_method
+        description: "Payment method used"
+        tests:
+          - accepted_values:
+              values: ['credit card', 'upi', 'paypal', 'netbanking']
