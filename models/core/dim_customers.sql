@@ -1,7 +1,11 @@
+with customers as (
+    select * from {{ ref('stg_customers') }}
+)
+
 select
     customer_id,
     first_name,
     last_name,
-    signup_date,
-    country
-from {{ ref('stg_customers') }}
+    country,
+    signup_ts
+from customers
